@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:money2/money2.dart';
 import 'package:xpenses_app/models/ExpensesModel.dart';
 
 class ExpensesCard extends StatelessWidget {
   final ExpenseModel expense;
+
   const ExpensesCard({
     Key? key,
     required this.expense,
@@ -13,7 +15,9 @@ class ExpensesCard extends StatelessWidget {
       color: Colors.red[100],
       child: ListTile(
         title: Text(expense.description +
-            ": \$ ${expense.value} , " +
+            ": " +
+            Money.from(expense.value, Currency.create('\$', 2)).toString() +
+            " " +
             expense.category),
         leading: Icon(Icons.credit_card),
       ),
