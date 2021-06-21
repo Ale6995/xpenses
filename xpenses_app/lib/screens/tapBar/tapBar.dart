@@ -13,7 +13,16 @@ class MyTabBar extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Xpenses"),
+        title: Container(
+          child: ListTile(
+            title: Text("Xpenses"),
+            leading: Image.asset(
+              'images/logo.png',
+              width: 42,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.blue[100],
       ),
       bottomNavigationBar: SafeArea(
         child: Container(

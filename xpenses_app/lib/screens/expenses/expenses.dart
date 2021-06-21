@@ -31,6 +31,8 @@ class Expenses extends StatelessWidget {
         onPressed: () {
           controller.addExpense("hola", 1000.0, 'housing');
         },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.grey[500],
       ),
     );
   }

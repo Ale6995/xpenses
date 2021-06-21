@@ -10,9 +10,11 @@ class ExpensesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.red[100],
       child: ListTile(
-        title: Text(
-            expense.description + ": \$ ${expense.value}" + expense.category),
+        title: Text(expense.description +
+            ": \$ ${expense.value} , " +
+            expense.category),
         leading: Icon(Icons.credit_card),
       ),
     );

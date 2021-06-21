@@ -33,6 +33,8 @@ class IncomesScreen extends StatelessWidget {
         onPressed: () {
           controller.addIncome("hola", 1000.0);
         },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.grey[500],
       ),
     );
   }
