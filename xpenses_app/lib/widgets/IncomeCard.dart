@@ -11,15 +11,11 @@ class IncomeCard extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      decoration: BoxDecoration(
-          color: Colors.black54, borderRadius: BorderRadius.circular(15)),
-      child: AutoSizeText(
-        income.description + ": \$ ${income.value}",
-        style: TextStyle(fontSize: 16),
+    return Card(
+      color: Colors.green[100],
+      child: ListTile(
+        title: Text(income.description + ": \$ ${income.value}"),
+        leading: Icon(Icons.account_balance),
       ),
     );
   }

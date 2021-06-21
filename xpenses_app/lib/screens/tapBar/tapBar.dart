@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xpenses_app/screens/expenses/expenses.dart';
 import 'package:xpenses_app/screens/incomes/incomesScreen.dart';
-import 'package:xpenses_app/expenses/expenses.dart';
+
 import 'package:xpenses_app/screens/tapBar/tapbarController.dart';
 
 class MyTabBar extends StatelessWidget {
@@ -12,7 +13,16 @@ class MyTabBar extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Xpenses"),
+        title: Container(
+          child: ListTile(
+            title: Text("Xpenses"),
+            leading: Image.asset(
+              'images/logo.png',
+              width: 42,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.blue[100],
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
