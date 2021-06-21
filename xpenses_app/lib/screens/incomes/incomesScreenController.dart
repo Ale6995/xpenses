@@ -8,9 +8,20 @@ import 'package:xpenses_app/widgets/addIncomeWidget/addIncomeWidget.dart';
 class IncomesScreenController extends GetxController {
   List<IncomeModel> movements = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  double totalIncome = 0;
   loadData() async {
     movements.clear();
-    firestore.collection("Incomes").get().then((querySnapshot) {
+    print(Timestamp.fromDate(DateTime.now()).toString());
+    print(Timestamp.fromDate(DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, DateTime.now().hour)));
+    firestore
+        .collection("Incomes")
+        .where("date",
+            isGreaterThan: Timestamp.fromDate(
+                DateTime(DateTime.now().year, DateTime.now().month, 1)))
+        .orderBy('date', descending: true)
+        .get()
+        .then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
         print(result.data());
         var val = result.data()["Value"] ?? '0';
@@ -18,6 +29,7 @@ class IncomesScreenController extends GetxController {
         movements.add(
             IncomeModel(description: result.data()["Description"], value: val));
       });
+      calculateTotal();
       update();
     });
   }
@@ -29,10 +41,19 @@ class IncomesScreenController extends GetxController {
           "Description": value.description,
           "Value": value.value,
           "date": DateTime.now(),
-        }).then((value) {
-          loadData();
+        }).then((val) {
+          movements.insert(0, value);
+          calculateTotal();
+          update();
         });
       }
+    });
+  }
+
+  calculateTotal() {
+    totalIncome = 0;
+    movements.forEach((element) {
+      totalIncome += element.value;
     });
   }
 
