@@ -31,7 +31,7 @@ class IncomesScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          controller.addIncome("hola", 1000.0);
+          controller.addIncome();
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.grey[500],
