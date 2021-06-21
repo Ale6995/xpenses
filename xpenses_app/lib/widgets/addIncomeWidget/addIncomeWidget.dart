@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:xpenses_app/widgets/addIncomeWidget/addIncomeWidgetController.dart';
@@ -32,7 +33,9 @@ class AddIncomeWidget extends StatelessWidget {
                     children: [
                       Container(
                         margin: EdgeInsets.all(15),
-                        child: TextField(
+                        child: TextFormField(
+                          validator: validateDescription,
+                          autovalidateMode: AutovalidateMode.always,
                           decoration: InputDecoration(
                               isDense: true,
                               border: OutlineInputBorder(
@@ -48,8 +51,14 @@ class AddIncomeWidget extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.all(15),
-                        child: TextField(
+                        child: TextFormField(
                           keyboardType: TextInputType.number,
+                          validator: validateValue,
+                          autovalidateMode: AutovalidateMode.always,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9 .]")),
+                          ],
                           decoration: InputDecoration(
                               isDense: true,
                               border: OutlineInputBorder(
@@ -100,4 +109,22 @@ class AddIncomeWidget extends StatelessWidget {
       );
     });
   }
+}
+
+String? validateDescription(String? value) {
+  if (value!.length > 20)
+    return 'Description must be less than 20 characters';
+  else if (value.isEmpty)
+    return 'Description can not be empty';
+  else
+    return null;
+}
+
+String? validateValue(String? value) {
+  if (value!.length > 9)
+    return 'Value must be less than \$ 999999.99';
+  else if (value.isEmpty)
+    return 'Value can not be empty';
+  else
+    return null;
 }
