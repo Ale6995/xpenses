@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xpenses_app/screens/expenses/expenses.dart';
 import 'package:xpenses_app/screens/incomes/incomesScreen.dart';
-import 'package:xpenses_app/expenses/expenses.dart';
+
 import 'package:xpenses_app/screens/tapBar/tapbarController.dart';
 
 class MyTabBar extends StatelessWidget {
