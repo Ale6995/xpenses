@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xpenses_app/screens/incomes/incomesScreen.dart';
 import 'package:xpenses_app/screens/tapBar/tapbarController.dart';
 
 class MyTabBar extends StatelessWidget {
@@ -27,13 +28,9 @@ class MyTabBar extends StatelessWidget {
           final String label = tab.text!.toLowerCase();
           switch (label) {
             case 'incomes':
-              return Container(
-                child: Text('income tab'),
-              );
+              return IncomesScreen();
             case 'expenses':
-              return Container(
-                child: Text("expenses tab"),
-              );
+              return Container();
             default:
               return Center(
                 child: Text(
