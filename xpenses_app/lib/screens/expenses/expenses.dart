@@ -29,7 +29,7 @@ class Expenses extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          controller.addExpense("hola", 1000.0, 'housing');
+          controller.addExpense();
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.grey[500],
