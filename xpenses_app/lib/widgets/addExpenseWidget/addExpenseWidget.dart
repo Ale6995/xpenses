@@ -12,16 +12,17 @@ class AddExpenseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AddExpenseWidgetController>(builder: (controller) {
       return Dialog(
+        insetPadding: EdgeInsets.all(30),
         child: Container(
-          alignment: Alignment.center,
-          height: 300,
-          child: ListView(
+          // alignment: Alignment.center,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: 20),
                 child: AutoSizeText(
-                  "Add Income",
+                  "Add Expense",
                   maxFontSize: 30,
                   minFontSize: 16,
                 ),
@@ -36,7 +37,7 @@ class AddExpenseWidget extends StatelessWidget {
                         margin: EdgeInsets.all(15),
                         child: TextFormField(
                           validator: validateDescription,
-                          autovalidateMode: AutovalidateMode.always,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
                               isDense: true,
                               border: OutlineInputBorder(
@@ -52,7 +53,20 @@ class AddExpenseWidget extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.all(15),
-                        child: DropdownButton<String>(
+                        alignment: Alignment.center,
+                        child: DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          validator: validateCategory,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                              isDense: true,
+                              border: OutlineInputBorder(
+                                  borderSide:
+                                      new BorderSide(color: Colors.black)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      new BorderSide(color: Colors.black)),
+                              labelStyle: TextStyle(color: Colors.blueGrey)),
                           items: controller.expenceCategories
                               .map(
                                 (e) => DropdownMenuItem<String>(
@@ -73,7 +87,7 @@ class AddExpenseWidget extends StatelessWidget {
                         child: TextFormField(
                           keyboardType: TextInputType.number,
                           validator: validateValue,
-                          autovalidateMode: AutovalidateMode.always,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
                                 RegExp("[0-9 .]")),
@@ -134,6 +148,13 @@ String? validateDescription(String? value) {
   if (value!.length > 20)
     return 'Description must be less than 20 characters';
   else if (value.isEmpty)
+    return 'Description can not be empty';
+  else
+    return null;
+}
+
+String? validateCategory(String? value) {
+  if (value!.isEmpty)
     return 'Description can not be empty';
   else
     return null;

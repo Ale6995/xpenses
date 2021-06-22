@@ -24,7 +24,7 @@ class IncomesScreenController extends GetxController {
         allMovements.add(IncomeModel(
             description: result.data()["Description"],
             value: val,
-            date: result.data()["date"]));
+            date: result.data()["date"].toDate()));
         if (result
             .data()["date"]
             .toDate()
@@ -32,7 +32,7 @@ class IncomesScreenController extends GetxController {
           movements.add(IncomeModel(
               description: result.data()["Description"],
               value: val,
-              date: result.data()["date"]));
+              date: result.data()["date"].toDate()));
         }
       });
       calculateTotal();
@@ -49,6 +49,7 @@ class IncomesScreenController extends GetxController {
           "date": value.date,
         }).then((val) {
           movements.insert(0, value);
+          allMovements.insert(0, value);
           calculateTotal();
           update();
         });
