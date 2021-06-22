@@ -2,10 +2,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:money2/money2.dart';
 import 'package:xpenses_app/screens/goals/goalsController.dart';
 
 class GoalsScreen extends StatelessWidget {
-  GoalsController controller = Get.put(GoalsController());
+  GoalsController controller = Get.find<GoalsController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +76,9 @@ class GoalsScreen extends StatelessWidget {
                                           textAlign: TextAlign.center,
                                         ),
                                         AutoSizeText(
-                                          "\$1500.00",
+                                          Money.from(controller.totalIncomes,
+                                                  controller.currency)
+                                              .toString(),
                                           maxLines: 1,
                                           textAlign: TextAlign.center,
                                         ),
@@ -104,7 +107,9 @@ class GoalsScreen extends StatelessWidget {
                                           textAlign: TextAlign.center,
                                         ),
                                         AutoSizeText(
-                                          "\$1000.00",
+                                          Money.from(controller.currentIncomes,
+                                                  controller.currency)
+                                              .toString(),
                                           maxLines: 1,
                                           textAlign: TextAlign.center,
                                         ),

@@ -22,7 +22,8 @@ class AddExpenseWidgetController extends GetxController {
         result: ExpenseModel(
             description: descriptionController.text,
             category: value!,
-            value: double.parse(valueController.text)));
+            value: double.parse(valueController.text),
+            date: Timestamp.fromDate(DateTime.now())));
     descriptionController.clear();
     valueController.clear();
   }

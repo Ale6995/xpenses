@@ -6,7 +6,7 @@ import 'package:xpenses_app/screens/expenses/expensesController.dart';
 import 'package:xpenses_app/widgets/expenseCard.dart';
 
 class Expenses extends StatelessWidget {
-  ExpensesController controller = Get.put(ExpensesController());
+  ExpensesController controller = Get.find<ExpensesController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
