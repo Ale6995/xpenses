@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:xpenses_app/widgets/addIncomeWidget/addIncomeWidgetController.dart';
+import 'package:xpenses_app/widgets/addExpenseWidget/addExpenseWidgetController.dart';
 
-class AddIncomeWidget extends StatelessWidget {
-  AddIncomeWidgetController controller = Get.put(AddIncomeWidgetController());
+class AddExpenseWidget extends StatelessWidget {
+  AddExpenseWidgetController controller = Get.put(AddExpenseWidgetController());
+
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AddIncomeWidgetController>(builder: (controller) {
+    return GetBuilder<AddExpenseWidgetController>(builder: (controller) {
       return Dialog(
         child: Container(
           alignment: Alignment.center,
@@ -47,6 +48,24 @@ class AddIncomeWidget extends StatelessWidget {
                               labelText: 'Description',
                               labelStyle: TextStyle(color: Colors.blueGrey)),
                           controller: controller.descriptionController,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(15),
+                        child: DropdownButton<String>(
+                          items: controller.expenceCategories
+                              .map(
+                                (e) => DropdownMenuItem<String>(
+                                  child: Text(e.category),
+                                  value: e.category,
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (String? value) {
+                            controller.saveDropDownValue(value);
+                          },
+                          hint: Text('Select Category'),
+                          value: controller.value,
                         ),
                       ),
                       Container(

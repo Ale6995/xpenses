@@ -11,9 +11,6 @@ class IncomesScreenController extends GetxController {
   double totalIncome = 0;
   loadData() async {
     movements.clear();
-    print(Timestamp.fromDate(DateTime.now()).toString());
-    print(Timestamp.fromDate(DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, DateTime.now().hour)));
     firestore
         .collection("Incomes")
         .where("date",

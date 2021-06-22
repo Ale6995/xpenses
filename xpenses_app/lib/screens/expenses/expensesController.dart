@@ -1,12 +1,63 @@
 import 'package:get/get.dart';
 import 'package:xpenses_app/models/ExpensesModel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xpenses_app/widgets/addExpenseWidget/AddExpenseWidget.dart';
 
 class ExpensesController extends GetxController {
   List<ExpenseModel> movements = [];
+  double total = 0;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  loadData() async {
+    movements.clear();
+    firestore
+        .collection("Expenses")
+        .where("date",
+            isGreaterThan: Timestamp.fromDate(
+                DateTime(DateTime.now().year, DateTime.now().month, 1)))
+        .orderBy('date', descending: true)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        print(result.data());
+        var val = result.data()["Value"] ?? '0';
+        val = double.tryParse(val.toString());
+        movements.add(ExpenseModel(
+            description: result.data()["Description"],
+            value: val,
+            category: result.data()["Category"]));
+      });
+      totalExpenses();
+      update();
+    });
+  }
 
-  addExpense(String description, double value, String category) {
-    movements.add(ExpenseModel(
-        description: description, value: value, category: category));
-    update();
+  addExpense() {
+    Get.dialog(AddExpenseWidget()).then((value) {
+      if (value != null) {
+        firestore.collection("Expenses").add({
+          "Description": value.description,
+          "Value": value.value,
+          "Category": value.category,
+          "date": DateTime.now(),
+        }).then((val) {
+          movements.insert(0, value);
+          totalExpenses();
+          update();
+        });
+      }
+    });
+  }
+
+  totalExpenses() {
+    total = 0;
+    movements.forEach((element) {
+      total += element.value;
+    });
+  }
+
+  @override
+  void onInit() {
+    loadData();
+    super.onInit();
   }
 }
