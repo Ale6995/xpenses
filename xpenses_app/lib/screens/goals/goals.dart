@@ -10,42 +10,119 @@ class GoalsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GetBuilder<GoalsController>(
-        builder: (controller) => Container(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 10),
-                height: 220,
-                padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(color: Color(0xFFdbdbd9), boxShadow: [
-                  BoxShadow(
-                      color: Colors.black38, blurRadius: 8, spreadRadius: 8)
-                ]),
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SummaryCard(
-                        tittle: "Incomes",
-                        total: controller.totalIncomes,
-                        current: controller.currentIncomes),
-                    SummaryCard(
-                        tittle: "Expenses",
-                        total: controller.totalExpenses,
-                        current: controller.currentExpenses),
-                    SummaryCard(
-                        tittle: "Savings",
-                        total: controller.totalSavings,
-                        current: controller.currentSavings)
-                  ],
+        body: GetBuilder<GoalsController>(
+      builder: (controller) => Column(
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  height: 220,
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black38,
+                            offset: Offset(0, 3),
+                            blurRadius: 5,
+                            spreadRadius: 5)
+                      ]),
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SummaryCard(
+                          tittle: "Incomes",
+                          total: controller.totalIncomes,
+                          current: controller.currentIncomes),
+                      SummaryCard(
+                          tittle: "Expenses",
+                          total: controller.totalExpenses,
+                          current: controller.currentExpenses),
+                      SummaryCard(
+                          tittle: "Savings",
+                          total: controller.totalSavings,
+                          current: controller.currentSavings),
+                    ],
+                  ),
                 ),
-              )
-            ],
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              offset: Offset(0, 3),
+                              blurRadius: 5,
+                              spreadRadius: 5)
+                        ]),
+                    child: AspectRatio(
+                      aspectRatio: 1.2,
+                      child: Stack(
+                        children: [
+                          PieChart(
+                            PieChartData(
+                              sections: showSections(),
+                              sectionsSpace: 0,
+                              centerSpaceRadius: 80,
+                            ),
+                          ),
+                          Center(child: Text('GOALS'))
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
-    );
+    ));
+  }
+
+  List<PieChartSectionData> showSections() {
+    var savins = 20;
+    var goal = 100;
+    var goalEarned = goal - savins;
+    return List.generate(2, (i) {
+      final isTouched = false;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 60.0 : 50.0;
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: Colors.purple,
+            value: goalEarned.toDouble(),
+            title: '\$' + goalEarned.toString(),
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: Colors.blue,
+            value: (goal - goalEarned).toDouble(),
+            title: '\$' + (goal - goalEarned).toString(),
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
+          );
+        default:
+          throw Error();
+      }
+    });
   }
 }
 
