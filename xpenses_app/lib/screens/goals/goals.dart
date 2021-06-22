@@ -25,264 +25,119 @@ class GoalsScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Card(
-                      margin: EdgeInsets.all(5),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Container(
-                        width: 140,
-                        // padding: EdgeInsets.all(10),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                                height: 35,
-                                margin: EdgeInsets.only(bottom: 5),
-                                decoration: BoxDecoration(
-                                    color: Colors.blue[100],
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10))),
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.all(5),
-                                child: AutoSizeText('Incomes')),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.blue[100]!,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(5),
-                                alignment: Alignment.center,
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  children: [
-                                    AutoSizeText(
-                                      'total Incomes',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    AutoSizeText(
-                                      Money.from(controller.totalIncomes,
-                                              controller.currency)
-                                          .toString(),
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.blue[100]!,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(5),
-                                alignment: Alignment.center,
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  children: [
-                                    AutoSizeText(
-                                      'current incomes',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    AutoSizeText(
-                                      Money.from(controller.currentIncomes,
-                                              controller.currency)
-                                          .toString(),
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Card(
-                      margin: EdgeInsets.all(5),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Container(
-                        width: 140,
-                        // padding: EdgeInsets.all(10),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                                height: 35,
-                                margin: EdgeInsets.only(bottom: 5),
-                                decoration: BoxDecoration(
-                                    color: Colors.blue[100],
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10))),
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.all(5),
-                                child: AutoSizeText('Expenses')),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.blue[100]!,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(5),
-                                alignment: Alignment.center,
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  children: [
-                                    AutoSizeText(
-                                      'total expenses',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    AutoSizeText(
-                                      "\$1500.00",
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.blue[100]!,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(5),
-                                alignment: Alignment.center,
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  children: [
-                                    AutoSizeText(
-                                      'current expenses',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    AutoSizeText(
-                                      "\$1000.00",
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Card(
-                      margin: EdgeInsets.all(5),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Container(
-                        width: 140,
-                        // padding: EdgeInsets.all(10),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                                height: 35,
-                                margin: EdgeInsets.only(bottom: 5),
-                                decoration: BoxDecoration(
-                                    color: Colors.blue[100],
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10))),
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.all(5),
-                                child: AutoSizeText('Savings')),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.blue[100]!,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(5),
-                                alignment: Alignment.center,
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  children: [
-                                    AutoSizeText(
-                                      'total Savings',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    AutoSizeText(
-                                      "\$1500.00",
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.blue[100]!,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(5),
-                                alignment: Alignment.center,
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  children: [
-                                    AutoSizeText(
-                                      'current savings',
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    AutoSizeText(
-                                      "\$1000.00",
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    SummaryCard(
+                        tittle: "Incomes",
+                        total: controller.totalIncomes,
+                        current: controller.currentIncomes),
+                    SummaryCard(
+                        tittle: "Expenses",
+                        total: controller.totalExpenses,
+                        current: controller.currentExpenses),
+                    SummaryCard(
+                        tittle: "Savings",
+                        total: controller.totalSavings,
+                        current: controller.currentSavings)
                   ],
                 ),
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SummaryCard extends StatelessWidget {
+  final double total;
+  final double current;
+  final String tittle;
+  const SummaryCard(
+      {Key? key,
+      required this.tittle,
+      required this.total,
+      required this.current})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(5),
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Container(
+        width: 140,
+        // padding: EdgeInsets.all(10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+                height: 35,
+                margin: EdgeInsets.only(bottom: 5),
+                decoration: BoxDecoration(
+                    color: Colors.blue[100],
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10))),
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(5),
+                child: AutoSizeText(tittle)),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blue[100]!,
+                    ),
+                    borderRadius: BorderRadius.circular(10)),
+                padding: EdgeInsets.all(5),
+                alignment: Alignment.center,
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    AutoSizeText(
+                      'total ' + tittle.toLowerCase(),
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+                    AutoSizeText(
+                      Money.from(total, Currency.create("\$", 2)).toString(),
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blue[100]!,
+                    ),
+                    borderRadius: BorderRadius.circular(10)),
+                padding: EdgeInsets.all(5),
+                alignment: Alignment.center,
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    AutoSizeText(
+                      'current ' + tittle.toLowerCase(),
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+                    AutoSizeText(
+                      Money.from(current, Currency.create("\$", 2)).toString(),
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

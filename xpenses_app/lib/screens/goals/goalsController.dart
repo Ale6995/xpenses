@@ -13,23 +13,34 @@ class GoalsController extends GetxController {
   double currentIncomes = 0;
   double totalExpenses = 0;
   double currentExpenses = 0;
+  double totalSavings = 0;
+  double currentSavings = 0;
+
   Currency currency = Currency.create("\$", 2);
-  calculateIncomes() {
+  calculateValues() {
     incomesController.addListener(() {
       if (this.totalIncomes != incomesController.totalIncome) {
         currentIncomes = incomesController.totalIncome;
         incomesController.allMovements
             .forEach((element) => this.totalIncomes += element.value);
-        print("goalsincome: " + incomesController.totalIncome.toString());
+        calculateSavings();
+        update();
+      }
+    });
+    expensesController.addListener(() {
+      if (totalExpenses != expensesController.total) {
+        currentExpenses = expensesController.total;
+        expensesController.allMovements
+            .forEach((element) => this.totalExpenses += element.value);
+        calculateSavings();
         update();
       }
     });
   }
 
-  calculate() {
-    totalExpenses = expensesController.total;
-    expensesController.allMovements
-        .forEach((element) => this.totalExpenses += element.value);
+  calculateSavings() {
+    totalSavings = totalIncomes - totalExpenses;
+    currentSavings = currentIncomes - currentExpenses;
     update();
   }
 
@@ -37,6 +48,6 @@ class GoalsController extends GetxController {
   void onInit() {
     // TODO: implement onReady
     super.onInit();
-    calculateIncomes();
+    calculateValues();
   }
 }
