@@ -5,10 +5,18 @@ import 'package:xpenses_app/widgets/addExpenseWidget/AddExpenseWidget.dart';
 
 class ExpensesController extends GetxController {
   List<ExpenseModel> movements = [];
+  double total = 0;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   loadData() async {
     movements.clear();
-    firestore.collection("Expenses").get().then((querySnapshot) {
+    firestore
+        .collection("Expenses")
+        .where("date",
+            isGreaterThan: Timestamp.fromDate(
+                DateTime(DateTime.now().year, DateTime.now().month, 1)))
+        .orderBy('date', descending: true)
+        .get()
+        .then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
         print(result.data());
         var val = result.data()["Value"] ?? '0';
@@ -18,6 +26,7 @@ class ExpensesController extends GetxController {
             value: val,
             category: result.data()["Category"]));
       });
+      totalExpenses();
       update();
     });
   }
@@ -30,10 +39,19 @@ class ExpensesController extends GetxController {
           "Value": value.value,
           "Category": value.category,
           "date": DateTime.now(),
-        }).then((value) {
-          loadData();
+        }).then((val) {
+          movements.insert(0, value);
+          totalExpenses();
+          update();
         });
       }
+    });
+  }
+
+  totalExpenses() {
+    total = 0;
+    movements.forEach((element) {
+      total += element.value;
     });
   }
 
