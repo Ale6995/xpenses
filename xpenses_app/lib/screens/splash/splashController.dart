@@ -20,7 +20,7 @@ class SplashController extends GetxController {
 
   ensureInit() {
     if (incomesController.ready != null) {
-      Get.to(() => MyTabBar());
+      Get.off(() => MyTabBar());
     } else {
       Future.delayed(Duration(seconds: 1), () {
         ensureInit();
