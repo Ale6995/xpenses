@@ -10,6 +10,7 @@ class IncomesScreenController extends GetxController {
   List<IncomeModel> allMovements = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   double totalIncome = 0;
+  bool? ready;
   loadData() async {
     movements.clear();
     firestore
@@ -60,6 +61,8 @@ class IncomesScreenController extends GetxController {
     movements.forEach((element) {
       totalIncome += element.value;
     });
+    print("total income calculated: $totalIncome");
+    ready = true;
   }
 
   @override

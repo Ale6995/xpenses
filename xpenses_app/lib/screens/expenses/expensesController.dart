@@ -5,15 +5,16 @@ import 'package:xpenses_app/widgets/addExpenseWidget/AddExpenseWidget.dart';
 
 class ExpensesController extends GetxController {
   List<ExpenseModel> movements = [];
-  double total = 0;
+  List<ExpenseModel> allMovements = [];
+  late double total;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   loadData() async {
     movements.clear();
     firestore
         .collection("Expenses")
-        .where("date",
-            isGreaterThan: Timestamp.fromDate(
-                DateTime(DateTime.now().year, DateTime.now().month, 1)))
+        // .where("date",
+        //     isGreaterThan: Timestamp.fromDate(
+        //         DateTime(DateTime.now().year, DateTime.now().month, 1)))
         .orderBy('date', descending: true)
         .get()
         .then((querySnapshot) {
@@ -21,10 +22,22 @@ class ExpensesController extends GetxController {
         print(result.data());
         var val = result.data()["Value"] ?? '0';
         val = double.tryParse(val.toString());
-        movements.add(ExpenseModel(
+        allMovements.add(ExpenseModel(
             description: result.data()["Description"],
             value: val,
-            category: result.data()["Category"]));
+            category: result.data()["Category"],
+            date: result.data()["date"]));
+
+        if (result
+            .data()["date"]
+            .toDate()
+            .isAfter(DateTime(DateTime.now().year, DateTime.now().month, 1))) {
+          movements.add(ExpenseModel(
+              description: result.data()["Description"],
+              value: val,
+              category: result.data()["Category"],
+              date: result.data()["date"]));
+        }
       });
       totalExpenses();
       update();

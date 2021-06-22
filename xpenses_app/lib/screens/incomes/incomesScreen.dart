@@ -7,7 +7,7 @@ import 'package:xpenses_app/screens/incomes/incomesScreenController.dart';
 import 'package:xpenses_app/widgets/IncomeCard.dart';
 
 class IncomesScreen extends StatelessWidget {
-  IncomesScreenController controller = Get.put(IncomesScreenController());
+  IncomesScreenController controller = Get.find<IncomesScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,6 @@ class IncomesScreen extends StatelessWidget {
       body: GetBuilder<IncomesScreenController>(
         builder: (controller) => Column(
             // alignment: Alignment.center,
-
             children: [
               controller.movements.length == 0
                   ? Expanded(
