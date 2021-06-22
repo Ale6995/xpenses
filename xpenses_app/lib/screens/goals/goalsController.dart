@@ -48,6 +48,7 @@ class GoalsController extends GetxController {
     incomesController.addListener(() {
       if (this.totalIncomes != incomesController.totalIncome) {
         currentIncomes = incomesController.totalIncome;
+        totalIncomes = 0;
         incomesController.allMovements
             .forEach((element) => this.totalIncomes += element.value);
         savinsPerDay();
@@ -58,6 +59,7 @@ class GoalsController extends GetxController {
     expensesController.addListener(() {
       if (totalExpenses != expensesController.total) {
         currentExpenses = expensesController.total;
+        totalExpenses = 0;
         expensesController.allMovements
             .forEach((element) => this.totalExpenses += element.value);
         savinsPerDay();

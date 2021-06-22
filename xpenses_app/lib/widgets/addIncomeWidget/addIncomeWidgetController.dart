@@ -19,7 +19,7 @@ class AddIncomeWidgetController extends GetxController {
         result: IncomeModel(
             description: descriptionController.text,
             value: double.parse(valueController.text),
-            date: Timestamp.fromDate(DateTime.now())));
+            date: DateTime.now()));
     descriptionController.clear();
     valueController.clear();
   }

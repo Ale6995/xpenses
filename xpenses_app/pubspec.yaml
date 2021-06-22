@@ -58,6 +58,18 @@ flutter:
   assets:
   - images/
 
+  fonts:
+      
+       - family: disney
+         fonts:
+           - asset: fonts/waltograph/waltograph42.ttf
+       - family: aileron
+         fonts:
+           - asset: fonts/aileron/Aileron-BoldItalic.ttf
+           - asset: fonts/aileron/Aileron-HeavyItalic.ttf
+             style: italic
+         
+       
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

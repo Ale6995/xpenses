@@ -16,7 +16,13 @@ class MyTabBar extends StatelessWidget {
       appBar: AppBar(
         title: Container(
           child: ListTile(
-            title: Text("Xpenses"),
+            title: Text(
+              "XPENSES",
+              style: TextStyle(
+                fontFamily: 'disney',
+                fontSize: 27,
+              ),
+            ),
             leading: Image.asset(
               'images/logo.png',
               width: 42,

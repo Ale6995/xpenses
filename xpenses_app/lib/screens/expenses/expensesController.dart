@@ -26,7 +26,7 @@ class ExpensesController extends GetxController {
             description: result.data()["Description"],
             value: val,
             category: result.data()["Category"],
-            date: result.data()["date"]));
+            date: result.data()["date"].toDate()));
 
         if (result
             .data()["date"]
@@ -36,7 +36,7 @@ class ExpensesController extends GetxController {
               description: result.data()["Description"],
               value: val,
               category: result.data()["Category"],
-              date: result.data()["date"]));
+              date: result.data()["date"].toDate()));
         }
       });
       totalExpenses();
@@ -54,6 +54,7 @@ class ExpensesController extends GetxController {
           "date": DateTime.now(),
         }).then((val) {
           movements.insert(0, value);
+          allMovements.insert(0, value);
           totalExpenses();
           update();
         });

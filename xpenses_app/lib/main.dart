@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Xpenses',
       theme: ThemeData(
+          fontFamily: 'aileron',
           brightness: Brightness.light,
           primaryColor: Colors.blueGrey,
           accentColor: Colors.black),
