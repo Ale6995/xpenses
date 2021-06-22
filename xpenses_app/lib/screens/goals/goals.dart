@@ -64,20 +64,30 @@ class GoalsScreen extends StatelessWidget {
                               blurRadius: 5,
                               spreadRadius: 5)
                         ]),
-                    child: AspectRatio(
-                      aspectRatio: 1.2,
-                      child: Stack(
-                        children: [
-                          PieChart(
-                            PieChartData(
-                              sections: showSections(),
-                              sectionsSpace: 0,
-                              centerSpaceRadius: 80,
-                            ),
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1.2,
+                          child: Stack(
+                            children: [
+                              PieChart(
+                                PieChartData(
+                                  sections: showSections(),
+                                  sectionsSpace: 0,
+                                  centerSpaceRadius: 80,
+                                ),
+                              ),
+                              Center(child: Text('GOALS'))
+                            ],
                           ),
-                          Center(child: Text('GOALS'))
-                        ],
-                      ),
+                        ),
+                        ListTile(
+                          leading: Bullets(),
+                          title: Text('You must to save' +
+                              controller.savingsDays.toString() +
+                              'days'),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -157,7 +167,8 @@ class GoalsScreen extends StatelessWidget {
   }
 
   List<PieChartSectionData> showSections() {
-    var savins = controller.currentSavings;
+    var savins =
+        controller.currentSavings.isNegative ? 0 : controller.currentSavings;
     var goal = 18000;
     var goalEarned = (goal - savins).isNegative ? 0 : goal - savins;
     return List.generate(2, (i) {
@@ -172,9 +183,10 @@ class GoalsScreen extends StatelessWidget {
             title: '\$' + goalEarned.toString(),
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           );
         case 1:
           return PieChartSectionData(
@@ -183,14 +195,29 @@ class GoalsScreen extends StatelessWidget {
             title: '\$' + (goal - goalEarned).toString(),
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           );
         default:
           throw Error();
       }
     });
+  }
+}
+
+class Bullets extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      height: 20.0,
+      width: 20.0,
+      decoration: new BoxDecoration(
+        color: Colors.black,
+        shape: BoxShape.circle,
+      ),
+    );
   }
 }
 
