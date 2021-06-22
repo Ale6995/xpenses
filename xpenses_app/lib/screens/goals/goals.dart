@@ -168,9 +168,9 @@ class GoalsScreen extends StatelessWidget {
   }
 
   List<PieChartSectionData> showSections() {
-    var savins = 20;
-    var goal = 100;
-    var goalEarned = goal - savins;
+    var savins = controller.currentSavings;
+    var goal = 18000;
+    var goalEarned = (goal - savins).isNegative ? 0 : goal - savins;
     return List.generate(2, (i) {
       final isTouched = false;
       final fontSize = isTouched ? 25.0 : 16.0;
