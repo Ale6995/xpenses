@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xpenses_app/models/incomeModel.dart';
@@ -17,7 +18,8 @@ class AddIncomeWidgetController extends GetxController {
     Get.back(
         result: IncomeModel(
             description: descriptionController.text,
-            value: double.parse(valueController.text)));
+            value: double.parse(valueController.text),
+            date: Timestamp.fromDate(DateTime.now())));
     descriptionController.clear();
     valueController.clear();
   }

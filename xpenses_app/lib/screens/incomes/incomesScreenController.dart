@@ -7,24 +7,32 @@ import 'package:xpenses_app/widgets/addIncomeWidget/addIncomeWidget.dart';
 
 class IncomesScreenController extends GetxController {
   List<IncomeModel> movements = [];
+  List<IncomeModel> allMovements = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   double totalIncome = 0;
   loadData() async {
     movements.clear();
     firestore
         .collection("Incomes")
-        .where("date",
-            isGreaterThan: Timestamp.fromDate(
-                DateTime(DateTime.now().year, DateTime.now().month, 1)))
         .orderBy('date', descending: true)
         .get()
         .then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
-        print(result.data());
         var val = result.data()["Value"] ?? '0';
         val = double.tryParse(val.toString());
-        movements.add(
-            IncomeModel(description: result.data()["Description"], value: val));
+        allMovements.add(IncomeModel(
+            description: result.data()["Description"],
+            value: val,
+            date: result.data()["date"]));
+        if (result
+            .data()["date"]
+            .toDate()
+            .isAfter(DateTime(DateTime.now().year, DateTime.now().month, 1))) {
+          movements.add(IncomeModel(
+              description: result.data()["Description"],
+              value: val,
+              date: result.data()["date"]));
+        }
       });
       calculateTotal();
       update();
@@ -37,7 +45,7 @@ class IncomesScreenController extends GetxController {
         firestore.collection("Incomes").add({
           "Description": value.description,
           "Value": value.value,
-          "date": DateTime.now(),
+          "date": value.date,
         }).then((val) {
           movements.insert(0, value);
           calculateTotal();
