@@ -8,6 +8,9 @@ class MyTabController extends GetxController with SingleGetTickerProviderMixin {
   void onInit() {
     super.onInit();
     controller = TabController(vsync: this, length: 3);
+    controller.addListener(() {
+      update();
+    });
   }
 
   @override
