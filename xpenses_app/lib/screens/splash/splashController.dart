@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:xpenses_app/screens/expenses/expensesController.dart';
@@ -11,7 +14,7 @@ class SplashController extends GetxController {
       Get.put(IncomesScreenController());
   ExpensesController expensesController = Get.put(ExpensesController());
   GoalsController goalsController = Get.put(GoalsController());
-
+  late StreamSubscription<bool> subs;
   @override
   void onReady() {
     // TODO: implement onReady
@@ -25,26 +28,33 @@ class SplashController extends GetxController {
     bool canCheckBiometrics = await localAuthentication.canCheckBiometrics;
 
     bool isAuthenticated = false;
-
-    if (isBiometricSupported && canCheckBiometrics) {
-      isAuthenticated = await localAuthentication.authenticate(
-        localizedReason: 'Please complete the biometrics to proceed.',
-        biometricOnly: true,
-      );
+    try {
+      if (isBiometricSupported && canCheckBiometrics) {
+        isAuthenticated = await localAuthentication.authenticate(
+            localizedReason: 'WHO ARE YOU MY FRIEND?',
+            biometricOnly: false,
+            useErrorDialogs: true);
+      }
+    } catch (e) {
+      print(e);
     }
 
     return isAuthenticated;
   }
 
   ensureInit() async {
-    authenticateWithBiometrics();
-    var auth = await authenticateWithBiometrics();
-    if (incomesController.ready != null && auth) {
-      Get.off(() => MyTabBar());
+    bool auth = await authenticateWithBiometrics();
+    if (auth) {
+      if (incomesController.ready != null) {
+        Get.off(() => MyTabBar());
+        subs.cancel();
+      } else {
+        Future.delayed(Duration(seconds: 1), () {
+          ensureInit();
+        });
+      }
     } else {
-      Future.delayed(Duration(seconds: 1), () {
-        ensureInit();
-      });
+      exit(0);
     }
   }
 }

@@ -1,7 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.xpenses_app">
+    
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+   
    <application
-        android:label="xpenses_app"
+        android:name="io.flutter.app.FlutterApplication"
+        android:label="xpenses"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
