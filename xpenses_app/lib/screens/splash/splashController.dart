@@ -4,6 +4,7 @@ import 'package:xpenses_app/screens/expenses/expensesController.dart';
 import 'package:xpenses_app/screens/goals/goalsController.dart';
 import 'package:xpenses_app/screens/incomes/incomesScreenController.dart';
 import 'package:xpenses_app/screens/tapBar/tapBar.dart';
+import 'package:local_auth/local_auth.dart';
 
 class SplashController extends GetxController {
   IncomesScreenController incomesController =
@@ -18,8 +19,27 @@ class SplashController extends GetxController {
     ensureInit();
   }
 
-  ensureInit() {
-    if (incomesController.ready != null) {
+  static Future<bool> authenticateWithBiometrics() async {
+    final LocalAuthentication localAuthentication = LocalAuthentication();
+    bool isBiometricSupported = await localAuthentication.isDeviceSupported();
+    bool canCheckBiometrics = await localAuthentication.canCheckBiometrics;
+
+    bool isAuthenticated = false;
+
+    if (isBiometricSupported && canCheckBiometrics) {
+      isAuthenticated = await localAuthentication.authenticate(
+        localizedReason: 'Please complete the biometrics to proceed.',
+        biometricOnly: true,
+      );
+    }
+
+    return isAuthenticated;
+  }
+
+  ensureInit() async {
+    authenticateWithBiometrics();
+    var auth = await authenticateWithBiometrics();
+    if (incomesController.ready != null && auth) {
       Get.off(() => MyTabBar());
     } else {
       Future.delayed(Duration(seconds: 1), () {
