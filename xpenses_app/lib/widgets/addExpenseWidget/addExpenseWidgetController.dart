@@ -9,23 +9,27 @@ class AddExpenseWidgetController extends GetxController {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController valueController = TextEditingController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final addExpenseKey = GlobalKey<FormState>();
   String? value;
   close() {
     descriptionController.clear();
     valueController.clear();
-
+    value = null;
     Get.back();
   }
 
   add() {
-    Get.back(
-        result: ExpenseModel(
-            description: descriptionController.text,
-            category: value!,
-            value: double.parse(valueController.text),
-            date: DateTime.now()));
-    descriptionController.clear();
-    valueController.clear();
+    if (addExpenseKey.currentState!.validate() && value != null) {
+      Get.back(
+          result: ExpenseModel(
+              description: descriptionController.text,
+              category: value!,
+              value: double.parse(valueController.text),
+              date: DateTime.now()));
+      descriptionController.clear();
+      valueController.clear();
+      value = null;
+    }
   }
 
   saveDropDownValue(String? value) {
@@ -48,9 +52,42 @@ class AddExpenseWidgetController extends GetxController {
     });
   }
 
+  String? validateDescription(String? value) {
+    if (value!.length > 20)
+      return 'Description must be less than 20 characters';
+    else if (value.isEmpty || value.trim() == "")
+      return 'Description can not be empty';
+    else
+      return null;
+  }
+
+  String? validateCategory(String? value) {
+    if (value == null || value == "")
+      return 'Category can not be empty';
+    else
+      return null;
+  }
+
+  String? validateValue(dynamic val) {
+    if (val == '')
+      return 'Value can not be empty';
+    else if (val!.length > 9)
+      return 'Value must be less than \$ 999999.99';
+    else
+      return null;
+  }
+
   @override
   void onInit() {
     super.onInit();
     loadcategories();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    descriptionController.clear();
+    valueController.clear();
+    value = null;
   }
 }

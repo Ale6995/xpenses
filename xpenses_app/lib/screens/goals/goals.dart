@@ -23,7 +23,7 @@ class GoalsScreen extends StatelessWidget {
                     height: 220,
                     padding: EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).backgroundColor,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
@@ -55,7 +55,7 @@ class GoalsScreen extends StatelessWidget {
                     margin: EdgeInsets.all(10),
                     padding: EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).backgroundColor,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
@@ -72,7 +72,40 @@ class GoalsScreen extends StatelessWidget {
                             children: [
                               PieChart(
                                 PieChartData(
-                                  sections: showSections(),
+                                  sections: [
+                                    PieChartSectionData(
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor,
+                                      value: controller.totalSavings.isNegative
+                                          ? 0
+                                          : controller.totalSavings,
+                                      title: Money.from(controller.totalSavings,
+                                              Currency.create("\$", 2))
+                                          .toString(),
+                                      radius: 50,
+                                      titlePositionPercentageOffset: 1,
+                                      titleStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                    PieChartSectionData(
+                                      color: Theme.of(context).accentColor,
+                                      value: controller.ourGoal.value == 0
+                                          ? 1
+                                          : controller.ourGoal.value,
+                                      title: Money.from(
+                                              controller.ourGoal.value,
+                                              Currency.create("\$", 2))
+                                          .toString(),
+                                      titlePositionPercentageOffset: 1,
+                                      radius: 50,
+                                      titleStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    )
+                                  ],
                                   sectionsSpace: 0,
                                   centerSpaceRadius: 80,
                                 ),
@@ -102,30 +135,13 @@ class GoalsScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: SpeedDial(
-        /// both default to 16
         marginEnd: 18,
         marginBottom: 20,
-        // animatedIcon: AnimatedIcons.menu_close,
-        // animatedIconTheme: IconThemeData(size: 22.0),
-        /// This is ignored if animatedIcon is non null
         icon: Icons.add,
         activeIcon: Icons.remove,
-        // iconTheme: IconThemeData(color: Colors.grey[50], size: 30),
-        /// The label of the main button.
-        // label: Text("Open Speed Dial"),
-        /// The active label of the main button, Defaults to label if not specified.
-        // activeLabel: Text("Close Speed Dial"),
-        /// Transition Builder between label and activeLabel, defaults to FadeTransition.
-        // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
-        /// The below button size defaults to 56 itself, its the FAB size + It also affects relative padding and other elements
         buttonSize: 56.0,
         visible: true,
-
-        /// If true user is forced to close dial manually
-        /// by tapping main button and overlay is not rendered.
         closeManually: false,
-
-        /// If true overlay will render no matter what.
         renderOverlay: false,
         curve: Curves.bounceIn,
         overlayOpacity: 0,
@@ -137,9 +153,6 @@ class GoalsScreen extends StatelessWidget {
         foregroundColor: Colors.white,
         elevation: 8.0,
         shape: CircleBorder(),
-        // orientation: SpeedDialOrientation.Up,
-        // childMarginBottom: 2,
-        // childMarginTop: 2,
         children: [
           SpeedDialChild(
             child: Container(
@@ -181,47 +194,6 @@ class GoalsScreen extends StatelessWidget {
       ),
     );
   }
-
-  List<PieChartSectionData> showSections() {
-    return List.generate(2, (i) {
-      final isTouched = false;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: Colors.blue,
-            value: controller.totalSavings.isNegative
-                ? 0
-                : controller.totalSavings,
-            title: Money.from(controller.totalSavings, Currency.create("\$", 2))
-                .toString(),
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: Colors.purple,
-            value: controller.ourGoal.value == 0 ? 1 : controller.ourGoal.value,
-            title:
-                Money.from(controller.ourGoal.value, Currency.create("\$", 2))
-                    .toString(),
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          );
-        default:
-          throw Error();
-      }
-    });
-  }
 }
 
 class Bullets extends StatelessWidget {
@@ -251,6 +223,7 @@ class SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Theme.of(context).backgroundColor,
       margin: EdgeInsets.all(5),
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -266,7 +239,7 @@ class SummaryCard extends StatelessWidget {
                 height: 35,
                 margin: EdgeInsets.only(bottom: 5),
                 decoration: BoxDecoration(
-                    color: Colors.blue[100],
+                    color: Theme.of(context).highlightColor,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10))),

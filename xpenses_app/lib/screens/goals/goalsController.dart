@@ -38,7 +38,6 @@ class GoalsController extends GetxController {
         print(e);
       }
       ;
-
       update();
     });
   }
