@@ -1,13 +1,14 @@
 import 'package:get/get.dart';
 import 'package:money2/money2.dart';
-import 'package:xpenses_app/models/goalModel.dart';
+import 'package:xpenses_app/models/GoalModel.dart';
 import 'package:xpenses_app/screens/expenses/expensesController.dart';
-import 'package:xpenses_app/screens/goals/goals.dart';
 import 'package:xpenses_app/screens/incomes/incomesScreenController.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xpenses_app/widgets/addGoalWidget/addGoalWidget.dart';
 
 class GoalsController extends GetxController {
-  GoalModel? ourGoal;
+  GoalModel ourGoal =
+      GoalModel(description: '', date: DateTime(1900), value: 0);
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   ExpensesController expensesController = Get.find<ExpensesController>();
   IncomesScreenController incomesController =
@@ -20,27 +21,41 @@ class GoalsController extends GetxController {
   double totalSavings = 0;
   double currentSavings = 0;
   double savingsDays = 0;
+
   loadData() async {
     firestore
         .collection("Goals")
         .orderBy('date', descending: true)
         .get()
         .then((querySnapshot) {
-      if (querySnapshot.docs[0].data().isNotEmpty) {
+      print(querySnapshot.docs[0].data().toString());
+      try {
         ourGoal = GoalModel(
             description: querySnapshot.docs[0].data()['description'],
-            date: querySnapshot.docs[0].data()['date'],
+            date: querySnapshot.docs[0].data()['date'].toDate(),
             value: querySnapshot.docs[0].data()['value']);
+      } catch (e) {
+        print(e);
       }
       ;
-      savinsPerDay();
+
       update();
     });
   }
 
-  savinsPerDay() {
-    int daysUntilGoalFinish = ourGoal!.date.difference(DateTime.now()).inDays;
-    savingsDays = (ourGoal!.value - totalSavings) / daysUntilGoalFinish;
+  addGoals() {
+    Get.dialog(AddGoalWidget()).then((value) {
+      if (value != null) {
+        firestore.collection("Goals").add({
+          "description": value.description,
+          "value": value.value,
+          "date": value.date,
+        }).then((val) {
+          ourGoal = value!;
+        });
+        update();
+      }
+    });
   }
 
   Currency currency = Currency.create("\$", 2);
@@ -51,7 +66,6 @@ class GoalsController extends GetxController {
         totalIncomes = 0;
         incomesController.allMovements
             .forEach((element) => this.totalIncomes += element.value);
-        savinsPerDay();
         calculateSavings();
         update();
       }
@@ -62,7 +76,6 @@ class GoalsController extends GetxController {
         totalExpenses = 0;
         expensesController.allMovements
             .forEach((element) => this.totalExpenses += element.value);
-        savinsPerDay();
         calculateSavings();
         update();
       }
@@ -72,12 +85,15 @@ class GoalsController extends GetxController {
   calculateSavings() {
     totalSavings = totalIncomes - totalExpenses;
     currentSavings = currentIncomes - currentExpenses;
+    int daysUntilGoalFinish = ourGoal.date.difference(DateTime.now()).inDays;
+    savingsDays = (ourGoal.value - totalSavings) / daysUntilGoalFinish;
     update();
   }
 
   @override
   void onInit() {
     super.onInit();
+    loadData();
     calculateValues();
   }
 }
