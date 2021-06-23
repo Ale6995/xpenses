@@ -33,15 +33,15 @@ class GoalsController extends GetxController {
             value: querySnapshot.docs[0].data()['value']);
       }
       ;
-      savinsPerDay();
+      // savinsPerDay();
       update();
     });
   }
 
-  savinsPerDay() {
-    int daysUntilGoalFinish = ourGoal!.date.difference(DateTime.now()).inDays;
-    savingsDays = (ourGoal!.value - totalSavings) / daysUntilGoalFinish;
-  }
+  // savinsPerDay() {
+  //   int daysUntilGoalFinish = ourGoal!.date.difference(DateTime.now()).inDays;
+  //   savingsDays = (ourGoal!.value - totalSavings) / daysUntilGoalFinish;
+  // }
 
   Currency currency = Currency.create("\$", 2);
   calculateValues() {
@@ -51,7 +51,7 @@ class GoalsController extends GetxController {
         totalIncomes = 0;
         incomesController.allMovements
             .forEach((element) => this.totalIncomes += element.value);
-        savinsPerDay();
+        // savinsPerDay();
         calculateSavings();
         update();
       }
@@ -62,7 +62,7 @@ class GoalsController extends GetxController {
         totalExpenses = 0;
         expensesController.allMovements
             .forEach((element) => this.totalExpenses += element.value);
-        savinsPerDay();
+        // savinsPerDay();
         calculateSavings();
         update();
       }

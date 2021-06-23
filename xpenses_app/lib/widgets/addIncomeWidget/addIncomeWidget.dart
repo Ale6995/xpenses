@@ -11,10 +11,12 @@ class AddIncomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AddIncomeWidgetController>(builder: (controller) {
       return Dialog(
+        insetPadding: EdgeInsets.all(30),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
         child: Container(
-          alignment: Alignment.center,
-          height: 300,
-          child: ListView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 alignment: Alignment.center,
@@ -27,54 +29,59 @@ class AddIncomeWidget extends StatelessWidget {
               ),
               Container(
                 child: Form(
+                    key: controller.addIncomeKey,
                     child: Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(15),
-                        child: TextFormField(
-                          validator: validateDescription,
-                          autovalidateMode: AutovalidateMode.always,
-                          decoration: InputDecoration(
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              labelText: 'Description',
-                              labelStyle: TextStyle(color: Colors.blueGrey)),
-                          controller: controller.descriptionController,
-                        ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(15),
+                            child: TextFormField(
+                              validator: controller.validateDescription,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  labelText: 'Description',
+                                  labelStyle:
+                                      TextStyle(color: Colors.blueGrey)),
+                              controller: controller.descriptionController,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(15),
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              validator: controller.validateValue,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9.]")),
+                              ],
+                              decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  labelText: 'value',
+                                  labelStyle:
+                                      TextStyle(color: Colors.blueGrey)),
+                              controller: controller.valueController,
+                            ),
+                          )
+                        ],
                       ),
-                      Container(
-                        margin: EdgeInsets.all(15),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          validator: validateValue,
-                          autovalidateMode: AutovalidateMode.always,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp("[0-9 .]")),
-                          ],
-                          decoration: InputDecoration(
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              labelText: 'value',
-                              labelStyle: TextStyle(color: Colors.blueGrey)),
-                          controller: controller.valueController,
-                        ),
-                      )
-                    ],
-                  ),
-                )),
+                    )),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -93,10 +100,8 @@ class AddIncomeWidget extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.all(10),
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.lightBlueAccent),
-                      ),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.lightBlueAccent),
                       onPressed: () => controller.add(),
                       child: Text("Add"),
                     ),
@@ -109,22 +114,4 @@ class AddIncomeWidget extends StatelessWidget {
       );
     });
   }
-}
-
-String? validateDescription(String? value) {
-  if (value!.length > 20)
-    return 'Description must be less than 20 characters';
-  else if (value.isEmpty)
-    return 'Description can not be empty';
-  else
-    return null;
-}
-
-String? validateValue(String? value) {
-  if (value!.length > 9)
-    return 'Value must be less than \$ 999999.99';
-  else if (value.isEmpty)
-    return 'Value can not be empty';
-  else
-    return null;
 }

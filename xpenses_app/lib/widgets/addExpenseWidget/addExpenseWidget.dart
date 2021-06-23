@@ -6,15 +6,20 @@ import 'package:get/get.dart';
 import 'package:xpenses_app/widgets/addExpenseWidget/addExpenseWidgetController.dart';
 
 class AddExpenseWidget extends StatelessWidget {
-  AddExpenseWidgetController controller = Get.put(AddExpenseWidgetController());
+  AddExpenseWidgetController controller =
+      Get.put(AddExpenseWidgetController(), permanent: false);
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddExpenseWidgetController>(builder: (controller) {
       return Dialog(
         insetPadding: EdgeInsets.all(30),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
         child: Container(
-          // alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -29,85 +34,92 @@ class AddExpenseWidget extends StatelessWidget {
               ),
               Container(
                 child: Form(
+                    key: controller.addExpenseKey,
                     child: Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(15),
-                        child: TextFormField(
-                          validator: validateDescription,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: InputDecoration(
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              labelText: 'Description',
-                              labelStyle: TextStyle(color: Colors.blueGrey)),
-                          controller: controller.descriptionController,
-                        ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(15),
+                            child: TextFormField(
+                              validator: controller.validateDescription,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  labelText: 'Description',
+                                  labelStyle:
+                                      TextStyle(color: Colors.blueGrey)),
+                              controller: controller.descriptionController,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(15),
+                            alignment: Alignment.center,
+                            child: DropdownButtonFormField<String>(
+                              isExpanded: true,
+                              validator: controller.validateCategory,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  labelStyle:
+                                      TextStyle(color: Colors.blueGrey)),
+                              items: controller.expenceCategories
+                                  .map(
+                                    (e) => DropdownMenuItem<String>(
+                                      child: Text(e.category),
+                                      value: e.category,
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (String? value) {
+                                controller.saveDropDownValue(value);
+                              },
+                              hint: Text('Select Category'),
+                              value: controller.value,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(15),
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              validator: controller.validateValue,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9.]")),
+                              ],
+                              decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black)),
+                                  labelText: 'value',
+                                  labelStyle:
+                                      TextStyle(color: Colors.blueGrey)),
+                              controller: controller.valueController,
+                            ),
+                          )
+                        ],
                       ),
-                      Container(
-                        margin: EdgeInsets.all(15),
-                        alignment: Alignment.center,
-                        child: DropdownButtonFormField<String>(
-                          isExpanded: true,
-                          validator: validateCategory,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: InputDecoration(
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              labelStyle: TextStyle(color: Colors.blueGrey)),
-                          items: controller.expenceCategories
-                              .map(
-                                (e) => DropdownMenuItem<String>(
-                                  child: Text(e.category),
-                                  value: e.category,
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (String? value) {
-                            controller.saveDropDownValue(value);
-                          },
-                          hint: Text('Select Category'),
-                          value: controller.value,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(15),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          validator: validateValue,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp("[0-9 .]")),
-                          ],
-                          decoration: InputDecoration(
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black)),
-                              labelText: 'value',
-                              labelStyle: TextStyle(color: Colors.blueGrey)),
-                          controller: controller.valueController,
-                        ),
-                      )
-                    ],
-                  ),
-                )),
+                    )),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,10 +138,8 @@ class AddExpenseWidget extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.all(10),
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.lightBlueAccent),
-                      ),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.lightBlueAccent),
                       onPressed: () => controller.add(),
                       child: Text("Add"),
                     ),
@@ -142,29 +152,4 @@ class AddExpenseWidget extends StatelessWidget {
       );
     });
   }
-}
-
-String? validateDescription(String? value) {
-  if (value!.length > 20)
-    return 'Description must be less than 20 characters';
-  else if (value.isEmpty)
-    return 'Description can not be empty';
-  else
-    return null;
-}
-
-String? validateCategory(String? value) {
-  if (value!.isEmpty)
-    return 'Description can not be empty';
-  else
-    return null;
-}
-
-String? validateValue(String? value) {
-  if (value!.length > 9)
-    return 'Value must be less than \$ 999999.99';
-  else if (value.isEmpty)
-    return 'Value can not be empty';
-  else
-    return null;
 }
