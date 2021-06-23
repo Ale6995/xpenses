@@ -77,15 +77,20 @@ class GoalsScreen extends StatelessWidget {
                                   centerSpaceRadius: 80,
                                 ),
                               ),
-                              Center(child: Text('GOALS'))
+                              Center(
+                                child: AutoSizeText('GOALS ' +
+                                    controller.ourGoal.value.toString()),
+                              )
                             ],
                           ),
                         ),
                         ListTile(
                           leading: Bullets(),
-                          title: Text('You must to save' +
-                              controller.savingsDays.toString() +
-                              'days'),
+                          title: Text('You must save ' +
+                              Money.from(controller.savingsDays,
+                                      Currency.create("\$", 2))
+                                  .toString() +
+                              ' per day.'),
                         ),
                       ],
                     ),
@@ -146,7 +151,7 @@ class GoalsScreen extends StatelessWidget {
             backgroundColor: Colors.purple,
             label: 'Add Goals',
             labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () => print('FIRST CHILD'),
+            onTap: () => controller.addGoals(),
           ),
           SpeedDialChild(
             child: Container(
@@ -178,10 +183,6 @@ class GoalsScreen extends StatelessWidget {
   }
 
   List<PieChartSectionData> showSections() {
-    var savins =
-        controller.currentSavings.isNegative ? 0 : controller.currentSavings;
-    var goal = 18000;
-    var goalEarned = (goal - savins).isNegative ? 0 : goal - savins;
     return List.generate(2, (i) {
       final isTouched = false;
       final fontSize = isTouched ? 25.0 : 16.0;
@@ -189,9 +190,12 @@ class GoalsScreen extends StatelessWidget {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.purple,
-            value: goalEarned.toDouble(),
-            title: '\$' + goalEarned.toString(),
+            color: Colors.blue,
+            value: controller.totalSavings.isNegative
+                ? 0
+                : controller.totalSavings,
+            title: Money.from(controller.totalSavings, Currency.create("\$", 2))
+                .toString(),
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -201,9 +205,11 @@ class GoalsScreen extends StatelessWidget {
           );
         case 1:
           return PieChartSectionData(
-            color: Colors.blue,
-            value: (goal - goalEarned).toDouble(),
-            title: '\$' + (goal - goalEarned).toString(),
+            color: Colors.purple,
+            value: controller.ourGoal.value == 0 ? 1 : controller.ourGoal.value,
+            title:
+                Money.from(controller.ourGoal.value, Currency.create("\$", 2))
+                    .toString(),
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -225,7 +231,7 @@ class Bullets extends StatelessWidget {
       height: 20.0,
       width: 20.0,
       decoration: new BoxDecoration(
-        color: Colors.black,
+        color: Colors.blue[100],
         shape: BoxShape.circle,
       ),
     );
