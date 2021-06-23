@@ -12,7 +12,7 @@ class ExpensesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.red[100],
+      color: Theme.of(context).cardColor,
       child: ListTile(
         title: Text(expense.description +
             ": " +

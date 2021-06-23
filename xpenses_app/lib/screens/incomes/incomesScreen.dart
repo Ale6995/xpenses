@@ -30,13 +30,17 @@ class IncomesScreen extends StatelessWidget {
                   : Expanded(
                       child: RefreshIndicator(
                         onRefresh: () => controller.loadData(),
-                        child: ListView.builder(
-                            itemCount: controller.movements.length,
-                            itemBuilder: (context, index) {
-                              return IncomeCard(
-                                income: controller.movements[index],
-                              );
-                            }),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 5),
+                          child: ListView.builder(
+                              itemCount: controller.movements.length,
+                              itemBuilder: (context, index) {
+                                return IncomeCard(
+                                  income: controller.movements[index],
+                                );
+                              }),
+                        ),
                       ),
                     ),
               Container(

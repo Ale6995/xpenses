@@ -29,7 +29,7 @@ class MyTabBar extends StatelessWidget {
             ),
           ),
         ),
-        backgroundColor: Colors.blue[100],
+        backgroundColor: Theme.of(context).highlightColor,
       ),
       bottomNavigationBar: SafeArea(
         child: Container(

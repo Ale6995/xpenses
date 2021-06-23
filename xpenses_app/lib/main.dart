@@ -18,13 +18,24 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           fontFamily: 'aileron',
           brightness: Brightness.light,
-          primaryColor: Colors.blueGrey,
-          accentColor: Colors.black),
+          primaryColor: Colors.blue[100],
+          highlightColor: Colors.blue[100],
+          accentColor: Colors.purple,
+          secondaryHeaderColor: Colors.blue,
+          backgroundColor: Colors.white,
+          cardColor: Colors.red[100],
+          focusColor: Colors.green[100]),
       darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
+          brightness: Brightness.dark,
+          fontFamily: 'aileron',
+          accentColor: Colors.grey[400],
+          secondaryHeaderColor: Colors.lime[200],
+          highlightColor: Colors.grey[600],
+          cardColor: Colors.pink[100],
+          focusColor: Colors.teal[200]),
       home: SplashScreen(),
       themeMode: ThemeMode.system,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

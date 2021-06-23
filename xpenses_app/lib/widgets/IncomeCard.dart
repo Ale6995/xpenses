@@ -13,7 +13,7 @@ class IncomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.green[100],
+      color: Theme.of(context).focusColor,
       child: ListTile(
         title: Text(income.description +
             ": " +

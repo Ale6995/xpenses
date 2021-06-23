@@ -29,18 +29,22 @@ class Expenses extends StatelessWidget {
                   : Expanded(
                       child: RefreshIndicator(
                         onRefresh: () => controller.loadData(),
-                        child: ListView.builder(
-                            itemCount: controller.movements.length,
-                            itemBuilder: (context, index) {
-                              return ExpensesCard(
-                                expense: controller.movements[index],
-                              );
-                            }),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 5),
+                          child: ListView.builder(
+                              itemCount: controller.movements.length,
+                              itemBuilder: (context, index) {
+                                return ExpensesCard(
+                                  expense: controller.movements[index],
+                                );
+                              }),
+                        ),
                       ),
                     ),
               Container(
                 height: 45,
-                color: Colors.blue[100],
+                color: Theme.of(context).highlightColor,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 alignment: Alignment.centerLeft,
                 child: AutoSizeText(
